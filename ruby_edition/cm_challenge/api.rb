@@ -3,8 +3,19 @@ require 'json'
 module CmChallenge
   class Api
     class << self
-      def absences
+      def absences(user_id: nil, start_date: nil, end_date: nil)
         load_file('absences.json')
+        # TODO: 1) map for absences.json and add user info to absence
+      end
+
+      def vacations
+        # TODO: 3) list abcenses where type == 'vacation'
+        # "#{member.name} is on vacation"
+      end
+
+      def sickness
+        # TODO: 4) list abcenses where type == 'sickness'
+        # "#{member.name} is sick"
       end
 
       def members
@@ -29,3 +40,6 @@ module CmChallenge
     end
   end
 end
+
+# puts CmChallenge::Api.absences.first
+# puts CmChallenge::Api.members.first
