@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'memoist'                       # memoize methods
 gem 'rspec'
 gem 'rspec-its'                     # its(:foo) syntax
 gem 'guard-rspec', require: false
