@@ -1,5 +1,6 @@
 require 'json'
 require 'memoist'
+
 require_relative 'absence_filter'
 
 module CmChallenge
@@ -7,19 +8,20 @@ module CmChallenge
     class << self
       extend Memoist
 
-      def absences(params)
-        include_user(AbsenceFilter.new(load_file('absences.json'), params).call)
-        # AbsenceFilter.new(load_file('absences.json'), params).call.tap do |scope|
-        #   include_user(scope)
-        # end
+      def absences(params = {})
+        absence_filter(params)
       end
 
       def vacations
-        # AbsenceFilter.new(load_file('absences.json'), type: 'vacation').call
+        absence_filter(type: 'vacation').map do |absence|
+          "#{absence[:user][:name]} is on vacation"
+        end
       end
 
       def sickness
-        # AbsenceFilter.new(load_file('absences.json'), type: 'sickness').call
+        absence_filter(type: 'sickness').map do |absence|
+          "#{absence[:user][:name]} is sick"
+        end
       end
 
       def members
@@ -27,6 +29,10 @@ module CmChallenge
       end
 
       private
+
+      def absence_filter(params)
+        AbsenceFilter.new(load_file('absences.json'), params).call.tap(&method(:include_user))
+      end
 
       def include_user(scope)
         scope.map do |absence|
@@ -60,8 +66,3 @@ module CmChallenge
     end
   end
 end
-
-# puts CmChallenge::Api.absences(user_id: 2735)
-# puts CmChallenge::Api.absences(type: 'vacation')
-# puts CmChallenge::Api.absences(type: 'sickness')
-# puts CmChallenge::Api.members.first

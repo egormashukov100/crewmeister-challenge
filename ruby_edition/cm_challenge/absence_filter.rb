@@ -1,4 +1,4 @@
-require 'json'
+require 'date'
 require 'memoist'
 
 module CmChallenge
@@ -19,9 +19,9 @@ module CmChallenge
 
       base_scope
         .then(&method(:filter_by_user))
-        # .then(&method(:filter_by_type))
-        # .then(&method(:filter_by_start_date))
-        # .then(&method(:filter_by_end_date))
+        .then(&method(:filter_by_type))
+        .then(&method(:filter_by_start_date))
+        .then(&method(:filter_by_end_date))
     end
 
     private
@@ -51,11 +51,15 @@ module CmChallenge
     end
 
     def filter_by_start_date(scope)
-      scope
+      return scope unless start_date_value
+
+      scope.select { |record| Date.parse(record[:start_date]) >= start_date_value }
     end
 
     def filter_by_end_date(scope)
-      scope
+      return scope unless end_date_value
+
+      scope.select { |record| Date.parse(record[:end_date]) <= end_date_value }
     end
   end
 end
