@@ -32,25 +32,25 @@ RSpec.describe CmChallenge::Api do
     it_behaves_like 'collection'
 
     context 'when non existing parameter' do
-      let(:params) { {wrong: 123} }
+      let(:params) { { wrong: 123 } }
 
       it { expect { subject }.to raise_error }
     end
 
     context 'when user_id provided' do
-      let(:params) { {user_id: 5192} }
+      let(:params) { { user_id: 5192 } }
 
       its(:length) { is_expected.to be(1) }
     end
 
     context 'when start_date provided' do
-      let(:params) { {start_date: Date.new(2017, 6, 1)} }
+      let(:params) { { start_date: Date.new(2017, 6, 1) } }
 
       its(:length) { is_expected.to be(10) }
     end
 
     context 'when end_date provided' do
-      let(:params) { {end_date: Date.new(2017, 2, 1)} }
+      let(:params) { { end_date: Date.new(2017, 2, 1) } }
 
       its(:length) { is_expected.to be(4) }
     end
